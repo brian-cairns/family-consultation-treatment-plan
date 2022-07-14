@@ -1,16 +1,19 @@
 let submit = document.getElementById('submit')
 console.log(submit)
-const formName = 'familyConsultationTreatmentPlan'
+const formName = 'familyTreatmentPlan'
 console.log('form: ' + formName)
 let newForm = {}
 let submitted = 0
 let additional = 0
+
 
 let clientName = document.querySelector('input#clientName')
 clientName.addEventListener('change', (e) => {
 	console.log('changed')
 	newForm.clientName = e.target.value;
   console.log(newForm.clientName);
+  document.getElementById('showClientName').innerHTML = newForm.clientName;
+  //document.getElementById('showClientName1').innerHTML = newForm.clientName;
   })
   
 let address = document.querySelector('input#address')
@@ -71,6 +74,8 @@ let dob = document.querySelector('input#dob')
 dob.addEventListener('change', (e) => {
 	newForm.dob = e.target.value;
   console.log(newForm.dob);
+  document.getElementById('showClientDOB').innerHTML = newForm.dob;
+  //document.getElementById('showClientDOB1').innerHTML = newForm.dob;
 })
 
 let familyTrainerName = document.querySelector('input#familyTrainerName')
@@ -85,26 +90,23 @@ threeMonthReview.addEventListener('change', (e) => {
   console.log(newForm.threeMonthReview);
 })
 
-let annual = document.querySelector('annual')
+let annual = document.querySelector('input#annual')
 annual.addEventListener('change', (e) => {
     newForm.treatmentPlanDuration = e.target.value;
     console.log(newForm.annual)
     })
 
-let threeMonth = document.querySelector('threeMonth')
+let threeMonth = document.querySelector('input#threeMonth')
 threeMonth.addEventListener('change', (e) => {
     newForm.treatmentPlanDuration = e.target.value;
     console.log(newForm.threeMonth)
 })
     
-let background = document.querySelector('background')
+let background = document.getElementById('background')
 background.addEventListener('change', (e) => {
     newForm.background = e.target.value;
     console.log(newForm.background)
     })
-
-document.getElementById('showClientName').innerHTML = newForm.clientName;
-document.getElementById('showClientDOB').innerHTML = newForm.dob;
 
 class Goal {
     constructor(goalName, strengths, needs, objectives, interventions, responsiblePersonTimeline, progress, notes) {
@@ -120,17 +122,17 @@ class Goal {
 }
 
 async function getCurrentGoal(goal) {
-    goal.goalName = document.getElementById('mainGoal').value
+    goal.goalName = document.getElementById('goalName').value
     goal.strengths = document.getElementById('strengths').value;
-    goal.needs = document.getElementById('needs'), value;
-    goal.objectives = await getObjectives()
+    goal.needs = document.getElementById('needs').value;
+    goal.objectives = await getObjectives
     goal.interventions = document.getElementById('interventions').value;
-    goal.responsiblePersonTimeline = await getResponsiblePersonTimeline();
-    goal.progress = await getProgress()
+    goal.responsiblePersonTimeline = await getResponsiblePersonTimeline;
+    goal.progress = await getProgress
     goal.notes = document.getElementById('notes').value;
 }
 
-async function getObjectives() {
+ getObjectives = new Promise((res) => {
     let objectives = []
     for (let i = 1; i < 4; i++) {
         if (document.getElementById(`goal${i}`) == '') {
@@ -138,26 +140,26 @@ async function getObjectives() {
             return objectives
         } else {objectives.push(document.getElementById(`goal${i}`).value)}
     }
-    return objectives
-}
+    res(objectives)
+})
 
-async function getResponsiblePersonTimeline() {
+ getResponsiblePersonTimeline = new Promise ((res) => {
     let responsiblePersonTimeline = []
     for (let i = 1; i < 4; i++) {
-        if (document.getElementById(`responsiblePersonTimelineItem${i}`) == '') {
+        if (document.getElementById(`responsiblePersonTimeline${i}`) == '') {
             i = 4;
             return responsiblePersonTimeline
-        } else {responsiblePersonTimeline.push(document.getElementById(`responsiblePersonTimelineItem${i}`).value)}
+        } else {responsiblePersonTimeline.push(document.getElementById(`responsiblePersonTimeline${i}`).value)}
     }
-    return responsiblePersonTimeline
-}
+    res(responsiblePersonTimeline)
+})
 
-async function getProgress() {
+ getProgress = new Promise ((res) => {
     let progress = ''
-    if (document.getElementById('achieved').isChecked) { progress = 'achieved' }
-    if (document.getElementById('discontinued'), isChecked) { progress = 'discontinued' } else { progress = 'on-going' }
-    return progress
-}
+    if (document.getElementById('achieved').checked) { progress = 'achieved' }
+    if (document.getElementById('discontinued').checked) { progress = 'discontinued' } else { progress = 'on-going' }
+    res(progress)
+})
 
 document.getElementById('submitCurrentGoal').addEventListener("click", async (event) => {
     goal = new Goal;
@@ -173,12 +175,13 @@ document.getElementById('createNewGoal').addEventListener("click", async (event)
         return
     }
     additional++
+    document.getElementById('responseMessage') = "Successfully Added"
     clearGoals()
     return
 })
 
 function showError() {
-    return document.getElementById('submitError').style.display='block'
+    return document.getElementById('responseMessage') = 'You need to save a goal before proceeding to the next'
 }
 
 function clearGoals() {
@@ -190,43 +193,42 @@ function clearGoals() {
         document.getElementById(`responsiblePersonTimeline${i}`).value = ''
     }
     document.getElementById('interventions').value = ''
-    document.getElementById('achieved').isChecked = false;
-    document.getElementById('ongoing').isChecked = false;
-    document.getElementById('discontinued').isChecked = false;
+    document.getElementById('achieved').checked = false;
+    document.getElementById('ongoing').checked = false;
+    document.getElementById('discontinued').checked = false;
     document.getElementById('notes').value = ''
 }
 
-document.getElementById('showClientName').innerHTML = newForm.clientName
-document.getElementById('showClientDOB').innerHTML = newForm.dob;
-
-function getFamilyTreatmentPlan() {
-    if (document.getElementById('agreeFamilyTreatmentPlan').isChecked) { return 'agree' }
-    else {return 'disagree'}
+async function copyOfPlan() {
+  let response = new Promise((res) => {
+    let checkbox = ''
+    if (document.getElementById('acceptReceiveCopy').checked) { checkbox = 'accept' }
+    if (document.getElementById('hardCopyReceiveCopy').checked) { checkbox = 'hard copy' }
+    if (document.getElementById('electronicReceiveCopy').checked) { checkbox = 'electronic' }
+    if (document.getElementById('electronicReceiveCopy').checked) { checkbox = 'disagree' }
+    res(checkbox)
+  })
+  return response
 }
 
-function copyOfPlan() {
-    if (document.getElementById('acceptReceiveCopy').isChecked) { return 'accept' }
-    if (document.getElementById('hardCopyReceiveCopy').isChecked) { return 'hard copy' }
-    if (document.getElementById('electronicReceiveCopy').isChecked) { return 'electronic' }
-    else { return 'disagree' }
-}
-
-function getFamilyResponse() {
+async function getFamilyResponse() {
+  let response = new Promise((res) => {
     let familyResponse = {}
     familyResponse.progress = document.getElementById('responseProgress').value;
     familyResponse.teachingPlan = document.getElementById('teachingPlan').value;
     familyResponse.timeline = document.getElementById('timeline').value;
-    if (document.getElementById('achievedFamily').isChecked) { familyResponse.review = 'achieved' }
+    if (document.getElementById('achievedFamily').checked) { familyResponse.review = 'achieved' }
     if (document.getElementById('discontinuedFamily')) { familyResponse.review = 'discontinued' }
     else { familyResponse.review = 'ongoing' }
     familyResponse.notes = document.getElementById('notesFamily').value
-    return familyResponse
+  resolve(familyResponse)
+  })
+  return response
 }
 
 document.getElementById('submit').addEventListener("click", async (event) => {
-    familyTreatmentPlan = await getFamilyTreatmentPlan();
-    autismSupportTreatmentPlan = await getAutismSupportTreatmentPlan();
-    copyOfPlan = await getCopyOfPlan()
+    familyTreatmentPlan = document.getElementById('agreeFamilyTreatmentPlan').checked ? "agree" : "disagree"
+    let copyOfPlan = await getCopyOfPlan()
     familyResponse = await getFamilyResponse()
     newForm.caregiverName = document.getElementById('caregiverName2').value;
     newForm.staffMemberName = document.getElementById('staffName').value;
@@ -234,7 +236,8 @@ document.getElementById('submit').addEventListener("click", async (event) => {
     newForm.familyTreatmentPlan = familyTreatmentPlan;
     newForm.autismSupportTreatmentPlan = autismSupportTreatmentPlan;
     newForm.copyOfPlan = copyOfPlan;
-    newForm.familyResponse = familyResponse
+  newForm.familyResponse = familyResponse;
+  newForm.date = document.getElementById('date').value
     submitForm(newForm, formName)
 })
 
