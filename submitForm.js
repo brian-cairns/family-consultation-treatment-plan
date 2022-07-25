@@ -171,7 +171,7 @@ document.getElementById('submitCurrentGoal').addEventListener("click", async (ev
 
 document.getElementById('createNewGoal').addEventListener("click", async (event) => {
     if (submitted <= additional) {
-        showError()
+        showError('You need to save a goal before proceeding to the next')
         return
     }
     additional++
@@ -180,8 +180,8 @@ document.getElementById('createNewGoal').addEventListener("click", async (event)
     return
 })
 
-function showError() {
-    return document.getElementById('responseMessage') = 'You need to save a goal before proceeding to the next'
+function showError(e) {
+    return document.getElementById('responseMessage') = e
 }
 
 function clearGoals() {
@@ -200,19 +200,20 @@ function clearGoals() {
 }
 
 async function copyOfPlan() {
-  let response = new Promise((res) => {
+  let response = new Promise((res, rej) => {
     let checkbox = ''
     if (document.getElementById('acceptReceiveCopy').checked) { checkbox = 'accept' }
     if (document.getElementById('hardCopyReceiveCopy').checked) { checkbox = 'hard copy' }
     if (document.getElementById('electronicReceiveCopy').checked) { checkbox = 'electronic' }
     if (document.getElementById('electronicReceiveCopy').checked) { checkbox = 'disagree' }
-    res(checkbox)
+    checkbox != '' ? res(checkbox): rej(showError('receipt of plan mus be checked'))
+  
   })
   return response
 }
 
 async function getFamilyResponse() {
-  let response = new Promise((res) => {
+  let response = new Promise((res, rej) => {
     let familyResponse = {}
     familyResponse.progress = document.getElementById('responseProgress').value;
     familyResponse.teachingPlan = document.getElementById('teachingPlan').value;
@@ -221,7 +222,7 @@ async function getFamilyResponse() {
     if (document.getElementById('discontinuedFamily')) { familyResponse.review = 'discontinued' }
     else { familyResponse.review = 'ongoing' }
     familyResponse.notes = document.getElementById('notesFamily').value
-  resolve(familyResponse)
+    familyResponse != {} ? res(familyResponse): rej(showError('Family acknowledgement required'))
   })
   return response
 }
@@ -236,8 +237,8 @@ document.getElementById('submit').addEventListener("click", async (event) => {
     newForm.familyTreatmentPlan = familyTreatmentPlan;
     newForm.autismSupportTreatmentPlan = autismSupportTreatmentPlan;
     newForm.copyOfPlan = copyOfPlan;
-  newForm.familyResponse = familyResponse;
-  newForm.date = document.getElementById('date').value
+    newForm.familyResponse = familyResponse;
+    newForm.date = document.getElementById('date').value
     submitForm(newForm, formName)
 })
 
