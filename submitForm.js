@@ -176,12 +176,13 @@ document.getElementById('createNewGoal').addEventListener("click", async (event)
         return
     }
     additional++
-    document.getElementById('responseMessage') = "Successfully Added"
+    showError("Successfully Added")
     clearGoals()
     return
 })
 
 function showError(e) {
+    document.getElementById('responseMessage').style.display = 'block'
     return document.getElementById('responseMessage') = e
 }
 
