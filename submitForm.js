@@ -5,6 +5,7 @@ console.log('form: ' + formName)
 let newForm = {}
 let submitted = 0
 let additional = 0
+newForm.goals = [];
 
 
 let clientName = document.querySelector('input#clientName')
