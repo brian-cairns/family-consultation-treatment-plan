@@ -229,7 +229,7 @@ async function getFamilyResponse() {
 
 document.getElementById('submit').addEventListener("click", async (event) => {
     familyTreatmentPlan = document.getElementById('agreeFamilyTreatmentPlan').checked ? "agree" : "disagree"
-    let copyOfPlan = await getCopyOfPlan()
+    let copyOfPlan = await copyOfPlan()
     familyResponse = await getFamilyResponse()
     newForm.caregiverName = document.getElementById('caregiverName2').value;
     newForm.staffMemberName = document.getElementById('staffName').value;
