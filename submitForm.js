@@ -133,10 +133,10 @@ const getCurrentGoal = new Promise ((res, rej)  => {
     goal.goalName = document.getElementById('goalName').value
     goal.strengths = document.querySelector('input#strengths').value;
     goal.needs = document.querySelector('input#needs').value;
-    goal.objectives = await getObjectives
+    goal.objectives = getObjectives()
     goal.interventions = document.getElementById('interventions').value;
-    goal.responsiblePersonTimeline = await getResponsiblePersonTimeline;
-    goal.progress = await getProgress
+    goal.responsiblePersonTimeline = getResponsiblePersonTimeline();
+    goal.progress = getProgress()
     goal.notes = document.getElementById('notes').value;
     Promise.allSettled([getObjectives, getResponsiblePersonTimeline, getProgress])
       .then((goal) => res(goal))
