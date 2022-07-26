@@ -176,6 +176,7 @@ async function getCurrentGoal(goal) {
 document.getElementById('submitCurrentGoal').addEventListener("click", async (event) => {
     goal = new Goal;
     goal = await getCurrentGoal(goal)
+    console.log(goal)
     newForm.goals.push(goal)
     submitted++
     document.getElementById('submitError').style.display='none'
