@@ -147,7 +147,7 @@ async function getCurrentGoal(goal) {
             return objectives
         } else {objectives.push(document.getElementById(`goal${i}`).value)}
     }
-    if (objective != []) {
+    if (objectives != []) {
       res(objectives)
     } else {
       rej(showError('Error in goals. Please clear the field and try again'))
