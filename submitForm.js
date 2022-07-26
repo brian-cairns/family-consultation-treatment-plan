@@ -53,10 +53,16 @@ end.addEventListener('change', (e) => {
   console.log(newForm.end);
 })
 
+let caregiverName = document.querySelector('input#caregiverName')
+caregiverName.addEventListner('change', (e) => {
+	newForm.caregiverName = e.target.value
+	console.log(newForm.caregiverName)
+})
+
 let intakeDate = document.querySelector('input#intakeDate')
 intakeDate.addEventListener('change', (e) => {
 	newForm.intakeDate = e.target.value;
-  console.log(newForm.sixMonthReview);
+  console.log(newForm.intakeDate);
 })
 
 let phone = document.querySelector('input#phone')
