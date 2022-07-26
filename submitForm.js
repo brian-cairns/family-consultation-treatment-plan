@@ -146,7 +146,7 @@ const getCurrentGoal = new Promise ((res, rej)  => {
       
 
 
- let getObjectives(goal) = new Promise(goal, (res, rej) => {
+ let getObjectives = new Promise(goal, (res, rej) => {
     let objectives = []
     for (let i = 1; i < 4; i++) {
         if (document.getElementById(`goal${i}`) == '') {
