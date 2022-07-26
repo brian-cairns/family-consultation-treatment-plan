@@ -41,10 +41,10 @@ zip.addEventListener('change', (e) => {
   console.log(newForm.zip);
 })
 
-let start = document.querySelector('input#start')
-start.addEventListener('change', (e) => {
-	newForm.start = e.target.value;
-  console.log(newForm.start);
+let caregiverName = document.querySelector('input#caregiverName')
+caregiverName.addEventListener('change', (e) => {
+	newForm.caregiverName = e.target.value;
+  console.log(newForm.caregiverName);
 })
 
 let end = document.querySelector('input#end')
@@ -53,10 +53,10 @@ end.addEventListener('change', (e) => {
   console.log(newForm.end);
 })
 
-let caregiverName = document.querySelector('input#caregiverName')
-caregiverName.addEventListner('change', (e) => {
-	newForm.caregiverName = e.target.value
-	console.log(newForm.caregiverName)
+let start = document.querySelector('input#start')
+start.addEventListener('change', (e) => {
+	newForm.start = e.target.value;
+  console.log(newForm.start);
 })
 
 let intakeDate = document.querySelector('input#intakeDate')
