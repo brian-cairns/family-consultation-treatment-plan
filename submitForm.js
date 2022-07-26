@@ -115,7 +115,13 @@ background.addEventListener('change', (e) => {
     console.log(newForm.background)
     })
 
-class Goal {
+let familyGoals = document.querySelector('input#familyGoals')
+familyGoals.addEventListener('change', (e) => {
+    newForm.familyGoals = e.target.value;
+    console.log(newForm.familyGoals)
+})
+
+    class Goal {
     constructor(goalName, strengths, needs, objectives, interventions, responsiblePersonTimeline, progress, notes) {
         this.goalName = goalName;
         this.strengths = strengths;
@@ -129,9 +135,9 @@ class Goal {
 }
 
 async function getCurrentGoal(goal) {
-    goal.goalName = document.getElementById('goalName').value
-    goal.strengths = document.getElementById('strengths').value;
-    goal.needs = document.getElementById('needs').value;
+    goal.goalName = document.querySelector('input#goalName').value
+    goal.strengths = document.querySelector('input#strengths').value;
+    goal.needs = document.querySelector('input#needs').value;
     goal.objectives = await getObjectives
     goal.interventions = document.getElementById('interventions').value;
     goal.responsiblePersonTimeline = await getResponsiblePersonTimeline;
@@ -139,7 +145,7 @@ async function getCurrentGoal(goal) {
     goal.notes = document.getElementById('notes').value;
 }
 
- getObjectives = new Promise((res) => {
+ getObjectives = new Promise((res, rej) => {
     let objectives = []
     for (let i = 1; i < 4; i++) {
         if (document.getElementById(`goal${i-1}`) == '') {
@@ -155,7 +161,7 @@ async function getCurrentGoal(goal) {
     
 })
 
- getResponsiblePersonTimeline = new Promise ((res) => {
+ getResponsiblePersonTimeline = new Promise ((res, rej) => {
     let responsiblePersonTimeline = []
     for (let i = 1; i < 4; i++) {
         if (document.getElementById(`responsiblePersonTimeline${i-1}`) == '') {
@@ -163,11 +169,10 @@ async function getCurrentGoal(goal) {
             return responsiblePersonTimeline
         } else {responsiblePersonTimeline.push(document.getElementById(`responsiblePersonTimeline${i-1}`).value)}
     }
-    responsiblePersonTimeline != [] ? res(responsiblePersonTimeline) : rej(showError('At least one follow-up is required'
-    ))
+    responsiblePersonTimeline != [] ? res(responsiblePersonTimeline) : rej(showError('At least one follow-up is required'))
 })
 
- getProgress = new Promise ((res) => {
+ getProgress = new Promise ((res, rej) => {
     let progress = ''
     if (document.getElementById('achieved').checked) { progress = 'achieved' }
     if (document.getElementById('discontinued').checked) { progress = 'discontinued' } else { progress = 'on-going' }
