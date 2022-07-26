@@ -146,7 +146,7 @@ const getCurrentGoal = new Promise ((res, rej)  => {
       
 
 
- getObjectives(goal) = new Promise(goal, (res, rej) => {
+ let getObjectives(goal) = new Promise(goal, (res, rej) => {
     let objectives = []
     for (let i = 1; i < 4; i++) {
         if (document.getElementById(`goal${i}`) == '') {
@@ -163,7 +163,7 @@ const getCurrentGoal = new Promise ((res, rej)  => {
     
 })
 
- getResponsiblePersonTimeline = new Promise (goal, (res, rej) => {
+ let getResponsiblePersonTimeline = new Promise (goal, (res, rej) => {
     let responsiblePersonTimeline = []
     for (let i = 1; i < 4; i++) {
         if (document.getElementById(`responsiblePersonTimeline${i}`) == '') {
@@ -174,7 +174,7 @@ const getCurrentGoal = new Promise ((res, rej)  => {
     responsiblePersonTimeline != [] ? res(responsiblePersonTimeline) : rej(showError('At least one follow-up is required'))
 })
 
- getProgress = new Promise (goal, (res, rej) => {
+ let getProgress = new Promise (goal, (res, rej) => {
     let progress = ''
     if (document.getElementById('achieved').checked) { progress = 'achieved' }
     if (document.getElementById('discontinued').checked) { progress = 'discontinued' } else { progress = 'on-going' }
