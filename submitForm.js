@@ -199,7 +199,7 @@ function showError(e) {
 
 function clearGoals() {
     console.log('clearining goals')
-    document.getElementById('mainGoal').value = '';
+    document.getElementById('goalName').value = '';
     document.getElementById('strengths').value = '';
     document.getElementById('needs').value = '';
     for (let i = 1; i < 4; i++) {
