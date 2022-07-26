@@ -41,12 +41,6 @@ zip.addEventListener('change', (e) => {
   console.log(newForm.zip);
 })
 
-let caregiver = document.querySelector('input#caregiver')
-caregiver.addEventListener('change', (e) => {
-	newForm.caregiver = e.target.value;
-  console.log(newForm.caregiver);
-})
-
 let end = document.querySelector('input#end')
 end.addEventListener('change', (e) => {
 	newForm.end = e.target.value;
