@@ -162,7 +162,7 @@ getCurrentGoal = new Promise ((res, rej)  => {
       rej(showError('Error in goals. Please clear the field and try again'))
     }
 })
-    current(goal).then(() =>{return goal}
+    current(goal).then(() =>{return goal})
  }
 
  async function getResponsiblePersonTimeline(goal) {
