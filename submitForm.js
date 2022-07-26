@@ -133,17 +133,20 @@ const getCurrentGoal = new Promise ((res, rej)  => {
     goal.goalName = document.getElementById('goalName').value
     goal.strengths = document.querySelector('input#strengths').value;
     goal.needs = document.querySelector('input#needs').value;
-    goal.objectives = getObjectives()
     goal.interventions = document.getElementById('interventions').value;
-    goal.responsiblePersonTimeline = getResponsiblePersonTimeline();
-    goal.progress = getProgress()
     goal.notes = document.getElementById('notes').value;
-    Promise.allSettled([getObjectives, getResponsiblePersonTimeline, getProgress])
-      .then((goal) => res(goal))
-      .catch((err) => rej (err))
-})
+    getObjectives(goal)
+      .then((goal) => getResponsiblePersonTimeline(goal))
+      .then((goal) => getProgress(goal))
+      .then((goal) => {
+        goal != {} ? res(goal) : rej(showError('There was an error in entering this goal. Please try again'))
+      })
+      .catch((err) => showError(err))
+  })
+      
 
- getObjectives = new Promise((res, rej) => {
+
+ getObjectives(goal) = new Promise(goal, (res, rej) => {
     let objectives = []
     for (let i = 1; i < 4; i++) {
         if (document.getElementById(`goal${i}`) == '') {
@@ -152,14 +155,15 @@ const getCurrentGoal = new Promise ((res, rej)  => {
         } else {objectives.push(document.getElementById(`goal${i}`).value)}
     }
     if (objectives != []) {
-      res(objectives)
+      goal.objectives = objectives
+      res(goal)
     } else {
       rej(showError('Error in goals. Please clear the field and try again'))
     }
     
 })
 
- getResponsiblePersonTimeline = new Promise ((res, rej) => {
+ getResponsiblePersonTimeline = new Promise (goal, (res, rej) => {
     let responsiblePersonTimeline = []
     for (let i = 1; i < 4; i++) {
         if (document.getElementById(`responsiblePersonTimeline${i}`) == '') {
@@ -170,7 +174,7 @@ const getCurrentGoal = new Promise ((res, rej)  => {
     responsiblePersonTimeline != [] ? res(responsiblePersonTimeline) : rej(showError('At least one follow-up is required'))
 })
 
- getProgress = new Promise ((res, rej) => {
+ getProgress = new Promise (goal, (res, rej) => {
     let progress = ''
     if (document.getElementById('achieved').checked) { progress = 'achieved' }
     if (document.getElementById('discontinued').checked) { progress = 'discontinued' } else { progress = 'on-going' }
