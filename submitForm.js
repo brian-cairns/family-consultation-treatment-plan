@@ -128,7 +128,7 @@ familyGoals.addEventListener('change', (e) => {
     }
 }
 
-const getCurrentGoal = new Promise ((res, rej)  => {
+getCurrentGoal = new Promise ((res, rej)  => {
     let goal = new Goal
     goal.goalName = document.getElementById('goalName').value
     goal.strengths = document.querySelector('input#strengths').value;
@@ -146,12 +146,13 @@ const getCurrentGoal = new Promise ((res, rej)  => {
       
 
 
- let getObjectives = new Promise(goal, (res, rej) => {
+ async function getObjectives(goal) {
+    let current = new Promise(goal, (res, rej) => {
     let objectives = []
     for (let i = 1; i < 4; i++) {
-        if (document.getElementById(`goal${i}`) == '') {
-            i = 4;
-            return objectives
+      if (document.getElementById(`goal${i}`) == '') {
+          i = 4;
+          return objectives
         } else {objectives.push(document.getElementById(`goal${i}`).value)}
     }
     if (objectives != []) {
@@ -160,10 +161,12 @@ const getCurrentGoal = new Promise ((res, rej)  => {
     } else {
       rej(showError('Error in goals. Please clear the field and try again'))
     }
-    
 })
+    current(goal).then(() =>{return goal}
+ }
 
- let getResponsiblePersonTimeline = new Promise (goal, (res, rej) => {
+ async function getResponsiblePersonTimeline(goal) {
+  let timeline = new Promise (goal, (res, rej) => {
     let responsiblePersonTimeline = []
     for (let i = 1; i < 4; i++) {
         if (document.getElementById(`responsiblePersonTimeline${i}`) == '') {
@@ -171,14 +174,27 @@ const getCurrentGoal = new Promise ((res, rej)  => {
             return responsiblePersonTimeline
         } else {responsiblePersonTimeline.push(document.getElementById(`responsiblePersonTimeline${i}`).value)}
     }
-    responsiblePersonTimeline != [] ? res(responsiblePersonTimeline) : rej(showError('At least one follow-up is required'))
-})
+    if (responsiblePersonTimeline != []) {
+      goal.responsiblePersonTimeline = responsiblePersonTimeline;
+      res(goal)
+    } else {rej(showError('At least one follow-up is required'))}
+  })
+    timeline(goal).then((goal) => {return goal})
+ }
 
- let getProgress = new Promise (goal, (res, rej) => {
+async function getProgress(goal) {
+    let p = new Promise (goal, (res, rej) => {
     let progress = ''
     if (document.getElementById('achieved').checked) { progress = 'achieved' }
     if (document.getElementById('discontinued').checked) { progress = 'discontinued' } else { progress = 'on-going' }
-    progress !='' ? res(progress) : rej(showError('At least one box must be checked'))
+    if (progress !='') {
+      goal.progress = progress ;
+      res(goal)
+    } else {rej(showError('At least one box must be checked'))}
+    p(goal).then((r) => {
+      goal.progress = r;
+      return goal
+    })
 })
 
 document.getElementById('submitCurrentGoal').addEventListener("click", async (event) => {
