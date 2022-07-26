@@ -94,13 +94,13 @@ threeMonthReview.addEventListener('change', (e) => {
 let annual = document.querySelector('input#annual')
 annual.addEventListener('change', (e) => {
     newForm.treatmentPlanDuration = e.target.value;
-    console.log(newForm.annual)
+    console.log(newForm.treatmentPlanDuration)
     })
 
 let threeMonth = document.querySelector('input#threeMonth')
 threeMonth.addEventListener('change', (e) => {
     newForm.treatmentPlanDuration = e.target.value;
-    console.log(newForm.threeMonth)
+    console.log(newForm.treatmentPlanDuration)
 })
     
 let background = document.getElementById('background')
@@ -136,30 +136,36 @@ async function getCurrentGoal(goal) {
  getObjectives = new Promise((res) => {
     let objectives = []
     for (let i = 1; i < 4; i++) {
-        if (document.getElementById(`goal${i}`) == '') {
+        if (document.getElementById(`goal${i-1}`) == '') {
             i = 4;
             return objectives
-        } else {objectives.push(document.getElementById(`goal${i}`).value)}
+        } else {objectives.push(document.getElementById(`goal${i-1}`).value)}
     }
-    res(objectives)
+    if (objective != []) {
+      res(objectives)
+    } else {
+      rej(showError('Error in goals. Please clear the field and try again'))
+    }
+    
 })
 
  getResponsiblePersonTimeline = new Promise ((res) => {
     let responsiblePersonTimeline = []
     for (let i = 1; i < 4; i++) {
-        if (document.getElementById(`responsiblePersonTimeline${i}`) == '') {
+        if (document.getElementById(`responsiblePersonTimeline${i-1}`) == '') {
             i = 4;
             return responsiblePersonTimeline
-        } else {responsiblePersonTimeline.push(document.getElementById(`responsiblePersonTimeline${i}`).value)}
+        } else {responsiblePersonTimeline.push(document.getElementById(`responsiblePersonTimeline${i-1}`).value)}
     }
-    res(responsiblePersonTimeline)
+    responsiblePersonTimeline != [] ? res(responsiblePersonTimeline) : rej(showError('At least one follow-up is required'
+    ))
 })
 
  getProgress = new Promise ((res) => {
     let progress = ''
     if (document.getElementById('achieved').checked) { progress = 'achieved' }
     if (document.getElementById('discontinued').checked) { progress = 'discontinued' } else { progress = 'on-going' }
-    res(progress)
+    progress !='' ? res(progress) : rej(showError('At least one box must be checked'))
 })
 
 document.getElementById('submitCurrentGoal').addEventListener("click", async (event) => {
@@ -187,12 +193,13 @@ function showError(e) {
 }
 
 function clearGoals() {
+    console.log('clearining goals')
     document.getElementById('mainGoal').value = '';
     document.getElementById('strengths').value = '';
     document.getElementById('needs').value = '';
     for (let i = 1; i < 4; i++) {
-        document.getElementById(`goal${i}`).value = ''
-        document.getElementById(`responsiblePersonTimeline${i}`).value = ''
+        document.getElementById(`goal${i-1}`).value = ''
+        document.getElementById(`responsiblePersonTimeline${i-1}`).value = ''
     }
     document.getElementById('interventions').value = ''
     document.getElementById('achieved').checked = false;
