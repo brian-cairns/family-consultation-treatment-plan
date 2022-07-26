@@ -41,7 +41,7 @@ zip.addEventListener('change', (e) => {
   console.log(newForm.zip);
 })
 
-let caregiverName = document.querySelector('input#caregiverName')
+let caregiver = document.querySelector('input#caregiverName')
 caregiverName.addEventListener('change', (e) => {
 	newForm.caregiverName = e.target.value;
   console.log(newForm.caregiverName);
@@ -251,7 +251,6 @@ document.getElementById('submit').addEventListener("click", async (event) => {
     familyTreatmentPlan = document.getElementById('agreeFamilyTreatmentPlan').checked ? "agree" : "disagree"
     let copyOfPlan = await copyOfPlan()
     familyResponse = await getFamilyResponse()
-    newForm.caregiverName = document.getElementById('caregiverName2').value;
     newForm.staffMemberName = document.getElementById('staffName').value;
     newForm.CEO = document.getElementById('CEOName').value
     newForm.familyTreatmentPlan = familyTreatmentPlan;
