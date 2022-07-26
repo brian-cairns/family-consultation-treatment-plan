@@ -184,7 +184,7 @@ document.getElementById('submitCurrentGoal').addEventListener("click", async (ev
 document.getElementById('createNewGoal').addEventListener("click", async (event) => {
     if (submitted <= additional) {
         showError('You need to save a goal before proceeding to the next')
-        return
+        returns
     }
     additional++
     showError("Successfully Added")
