@@ -174,7 +174,7 @@ async function getCurrentGoal(goal) {
 })
 
 document.getElementById('submitCurrentGoal').addEventListener("click", async (event) => {
-    goal = new Goal;
+    let goal = new Goal;
     goal = await getCurrentGoal(goal)
     console.log(goal)
     newForm.goals.push(goal)
@@ -204,8 +204,8 @@ function clearGoals() {
     document.getElementById('strengths').value = '';
     document.getElementById('needs').value = '';
     for (let i = 1; i < 4; i++) {
-        document.getElementById(`goal${i-1}`).value = ''
-        document.getElementById(`responsiblePersonTimeline${i-1}`).value = ''
+        document.getElementById(`goal${i}`).value = ''
+        document.getElementById(`responsiblePersonTimeline${i}`).value = ''
     }
     document.getElementById('interventions').value = ''
     document.getElementById('achieved').checked = false;
