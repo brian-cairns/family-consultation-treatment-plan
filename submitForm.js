@@ -128,7 +128,8 @@ familyGoals.addEventListener('change', (e) => {
     }
 }
 
-async function getCurrentGoal(goal) {
+const getCurrentGoal = new Promise ((res, rej)  => {
+    let goal = new Goal
     goal.goalName = document.getElementById('goalName').value
     goal.strengths = document.querySelector('input#strengths').value;
     goal.needs = document.querySelector('input#needs').value;
@@ -137,7 +138,10 @@ async function getCurrentGoal(goal) {
     goal.responsiblePersonTimeline = await getResponsiblePersonTimeline;
     goal.progress = await getProgress
     goal.notes = document.getElementById('notes').value;
-}
+    Promise.allSettled([getObjectives, getResponsiblePersonTimeline, getProgress])
+      .then((goal) => res(goal))
+      .catch((err) => rej (err))
+})
 
  getObjectives = new Promise((res, rej) => {
     let objectives = []
@@ -174,12 +178,14 @@ async function getCurrentGoal(goal) {
 })
 
 document.getElementById('submitCurrentGoal').addEventListener("click", async (event) => {
-    let goal = new Goal;
-    goal = await getCurrentGoal(goal)
-    console.log(goal)
-    newForm.goals.push(goal)
-    submitted++
-    document.getElementById('submitError').style.display='none'
+    getCurrentGoal()
+    .then((goal) => {
+      console.log(goal);
+      newForm.goals.push(goal)
+      showError('Goal successfully submitted')
+    })
+    .then(() => {submitted++})
+    .catch((err) => {showError(err)})
 })
 
 document.getElementById('createNewGoal').addEventListener("click", async (event) => {
