@@ -142,10 +142,10 @@ async function getCurrentGoal(goal) {
  getObjectives = new Promise((res, rej) => {
     let objectives = []
     for (let i = 1; i < 4; i++) {
-        if (document.getElementById(`goal${i-1}`) == '') {
+        if (document.getElementById(`goal${i}`) == '') {
             i = 4;
             return objectives
-        } else {objectives.push(document.getElementById(`goal${i-1}`).value)}
+        } else {objectives.push(document.getElementById(`goal${i}`).value)}
     }
     if (objective != []) {
       res(objectives)
@@ -158,10 +158,10 @@ async function getCurrentGoal(goal) {
  getResponsiblePersonTimeline = new Promise ((res, rej) => {
     let responsiblePersonTimeline = []
     for (let i = 1; i < 4; i++) {
-        if (document.getElementById(`responsiblePersonTimeline${i-1}`) == '') {
+        if (document.getElementById(`responsiblePersonTimeline${i}`) == '') {
             i = 4;
             return responsiblePersonTimeline
-        } else {responsiblePersonTimeline.push(document.getElementById(`responsiblePersonTimeline${i-1}`).value)}
+        } else {responsiblePersonTimeline.push(document.getElementById(`responsiblePersonTimeline${i}`).value)}
     }
     responsiblePersonTimeline != [] ? res(responsiblePersonTimeline) : rej(showError('At least one follow-up is required'))
 })
