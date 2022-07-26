@@ -129,7 +129,7 @@ familyGoals.addEventListener('change', (e) => {
 }
 
 async function getCurrentGoal(goal) {
-    goal.goalName = document.querySelector('input#goalName').value
+    goal.goalName = document.getElementById('goalName').value
     goal.strengths = document.querySelector('input#strengths').value;
     goal.needs = document.querySelector('input#needs').value;
     goal.objectives = await getObjectives
