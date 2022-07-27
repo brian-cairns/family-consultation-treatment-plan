@@ -130,99 +130,36 @@ familyGoals.addEventListener('change', (e) => {
 
 async function getCurrentGoal () {
   console.log('current goals being captured')
-  let currentGoal = new Promise ((res, rej)  => {
-    let goal = new Goal
+   let goal = new Goal
     console.log(goal)
     goal.goalName = document.getElementById('goalName').value
     goal.strengths = document.querySelector('input#strengths').value;
     goal.needs = document.querySelector('input#needs').value;
     goal.interventions = document.getElementById('interventions').value;
     goal.notes = document.getElementById('notes').value;
-    console.log(goal)
-    getObjectives(goal)
-      .then((goal) => getResponsiblePersonTimeline(goal))
-      .then((goal) => getProgress(goal))
-      .then((goal) => {
-        goal != {} ? res(goal) : rej(showError('There was an error in entering this goal. Please try again'))
-      })
-      .catch((err) => showError(err))
-  })
-  currentGoal.then(() => {return goal})
-}
-
-
- async function getObjectives(goal) {
-    console.log('getting objectives', goal)
-    let current = new Promise(goal, (res, rej) => {
-    console.log('creating objective array')
-    let objectives = []
-    for (let i = 1; i < 4; i++) {
-      console.log(i, objectives, goal)
-      if (document.getElementById(`goal${i}`) == '') {
-          i = 4;
-        } else {objectives.push(document.getElementById(`goal${i}`).value)}
-    }
-    if (objectives != []) {
-      console.log(objectives)
-      goal.objectives = objectives
-      res(goal)
-    } else {
-      rej(showError('Error in goals. Please clear the field and try again'))
-    }
-})
-    goal = await current
+    goal.objectives[0] = document.getElementById('goal1').value;
+    goal.objectives[1] = document.getElementById('goal2').value;
+    goal.objectives[2] = document.getElementById('goal3').value;
+    goal.responsiblePersonTimeline[0] = document.getElementById('responsiblePersonTimeline1').value
+    goal.responsiblePersonTimeline[1] = document.getElementById('responsiblePersonTimeline2').value
+    goal.responsiblePersonTimeline[2] = document.getElementById('responsiblePersonTimeline3').value
+    if(document.getElementById('responsiblePersonTimeline1').checked) {goal.progress = 'achieved'}
+    if(document.getElementById('responsiblePersonTimeline3').checked) {goal.progress = 'on-going'}
+    if(document.getElementById('responsiblePersonTimeline2').checked) {goal.progress = 'discontinued'}
     return goal
- }
+  }
 
- async function getResponsiblePersonTimeline(goal) {
-  console.log('getting timeline', goal)
-  let timeline = new Promise (goal, (res, rej) => {
-    let responsiblePersonTimeline = []
-    for (let i = 1; i < 4; i++) {
-        if (document.getElementById(`responsiblePersonTimeline${i}`) == '') {
-            i = 4;
-            return responsiblePersonTimeline
-        } else {responsiblePersonTimeline.push(document.getElementById(`responsiblePersonTimeline${i}`).value)}
-    }
-    if (responsiblePersonTimeline != []) {
-      goal.responsiblePersonTimeline = responsiblePersonTimeline;
-      res(goal)
-    } else {rej(showError('At least one follow-up is required'))}
-  })
-    goal = await timeline
-    return goal
- }
 
-async function getProgress(goal) {
-    console.log('getting progress', goal)
-    let p = new Promise (goal, (res, rej) => {
-    let progress = ''
-    if (document.getElementById('achieved').checked) { progress = 'achieved' }
-    if (document.getElementById('discontinued').checked) { progress = 'discontinued' } else { progress = 'on-going' }
-    if (progress !='') {
-      goal.progress = progress ;
-      res(goal)
-    } else {rej(showError('At least one box must be checked'))}
-    })
-    goal = await p
-    return goal
-  
-}
-
-document.getElementById('submitCurrentGoal').addEventListener("click", async (event) => {
+ document.getElementById('submitCurrentGoal').addEventListener("click", async (event) => {
+  let goals = []
   console.log('getting current goal')  
-  getCurrentGoal()
-    .then((goal) => getResponsiblePersonTimeline(goal))
-    .then((goal) => getProgress(goal))
-    .then((goal) => 
-    {
-      console.log(goal);
-      newForm.goals.push(goal)
-      showError('Goal successfully submitted')
-    })
-    .then(() => {submitted++})
-    .catch((err) => {showError(err)})
+  let currentGoal = getCurrentGoal()
+  console.log(goal);
+  newForm.goals.push(goal)
+  showError('Goal successfully submitted')
+  submitted++   
 })
+    
 
 document.getElementById('createNewGoal').addEventListener("click", async (event) => {
     if (submitted <= additional) {
