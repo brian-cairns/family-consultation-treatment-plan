@@ -175,7 +175,7 @@ document.getElementById('createNewGoal').addEventListener("click", async (event)
 
 function showInternalError(e) {
     document.getElementById('submitError2').style.display = 'block'
-    return document.getElementById('submitError2') .innerHTML = e
+    return document.getElementById('submitError2').innerHTML = e
 }
 
 function clearGoals() {
