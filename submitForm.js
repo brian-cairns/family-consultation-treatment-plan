@@ -152,7 +152,7 @@ async function getCurrentGoal () {
 
 
  async function getObjectives(goal) {
-    console.log('getting objectives')
+    console.log('getting objectives', goal)
     let current = new Promise(goal, (res, rej) => {
     let objectives = []
     for (let i = 1; i < 4; i++) {
@@ -172,7 +172,7 @@ async function getCurrentGoal () {
  }
 
  async function getResponsiblePersonTimeline(goal) {
-  console.log('getting timeline')
+  console.log('getting timeline', goal)
   let timeline = new Promise (goal, (res, rej) => {
     let responsiblePersonTimeline = []
     for (let i = 1; i < 4; i++) {
@@ -190,7 +190,7 @@ async function getCurrentGoal () {
  }
 
 async function getProgress(goal) {
-    console.log('getting progress')
+    console.log('getting progress', goal)
     let p = new Promise (goal, (res, rej) => {
     let progress = ''
     if (document.getElementById('achieved').checked) { progress = 'achieved' }
