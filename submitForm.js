@@ -129,14 +129,16 @@ familyGoals.addEventListener('change', (e) => {
 }
 
 async function getCurrentGoal () {
-
+  console.log('current goals being captured')
   let currentGoal = new Promise ((res, rej)  => {
     let goal = new Goal
+    console.log(goal)
     goal.goalName = document.getElementById('goalName').value
     goal.strengths = document.querySelector('input#strengths').value;
     goal.needs = document.querySelector('input#needs').value;
     goal.interventions = document.getElementById('interventions').value;
     goal.notes = document.getElementById('notes').value;
+    console.log(goal)
     getObjectives(goal)
       .then((goal) => getResponsiblePersonTimeline(goal))
       .then((goal) => getProgress(goal))
@@ -150,6 +152,7 @@ async function getCurrentGoal () {
 
 
  async function getObjectives(goal) {
+    console.log('getting objectives')
     let current = new Promise(goal, (res, rej) => {
     let objectives = []
     for (let i = 1; i < 4; i++) {
@@ -169,6 +172,7 @@ async function getCurrentGoal () {
  }
 
  async function getResponsiblePersonTimeline(goal) {
+  console.log('getting timeline')
   let timeline = new Promise (goal, (res, rej) => {
     let responsiblePersonTimeline = []
     for (let i = 1; i < 4; i++) {
@@ -186,6 +190,7 @@ async function getCurrentGoal () {
  }
 
 async function getProgress(goal) {
+    console.log('getting progress')
     let p = new Promise (goal, (res, rej) => {
     let progress = ''
     if (document.getElementById('achieved').checked) { progress = 'achieved' }
@@ -202,7 +207,8 @@ async function getProgress(goal) {
 }
 
 document.getElementById('submitCurrentGoal').addEventListener("click", async (event) => {
-    getCurrentGoal()
+  console.log('getting current goal')  
+  getCurrentGoal()
     .then((goal) => {
       console.log(goal);
       newForm.goals.push(goal)
