@@ -131,6 +131,8 @@ familyGoals.addEventListener('change', (e) => {
 async function getCurrentGoal () {
   console.log('current goals being captured')
    let goal = new Goal
+   goal.objectives = []
+   goal.responsiblePersonTimeline = []
     console.log(goal)
     goal.goalName = document.getElementById('goalName').value
     goal.strengths = document.querySelector('input#strengths').value;
@@ -151,7 +153,6 @@ async function getCurrentGoal () {
 
 
  document.getElementById('submitCurrentGoal').addEventListener("click", async (event) => {
-  let goals = []
   console.log('getting current goal')  
   let currentGoal = getCurrentGoal()
   console.log(goal);
