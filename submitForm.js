@@ -168,7 +168,7 @@ async function getCurrentGoal () {
       rej(showError('Error in goals. Please clear the field and try again'))
     }
 })
-    current(goal).then(() =>{return goal})
+    current(goal).then((goal) =>{return goal})
  }
 
  async function getResponsiblePersonTimeline(goal) {
@@ -209,7 +209,10 @@ async function getProgress(goal) {
 document.getElementById('submitCurrentGoal').addEventListener("click", async (event) => {
   console.log('getting current goal')  
   getCurrentGoal()
-    .then((goal) => {
+    .then((goal) => getResponsiblePersonTimeline(goal))
+    .then((goal) => getProgress(goal))
+    .then((goal) => 
+    {
       console.log(goal);
       newForm.goals.push(goal)
       showError('Goal successfully submitted')
