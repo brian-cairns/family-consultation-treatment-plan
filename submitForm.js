@@ -170,7 +170,8 @@ async function getCurrentGoal () {
       rej(showError('Error in goals. Please clear the field and try again'))
     }
 })
-    current(goal).then((goal) =>{return goal})
+    goal = await current
+    return goal
  }
 
  async function getResponsiblePersonTimeline(goal) {
@@ -188,7 +189,8 @@ async function getCurrentGoal () {
       res(goal)
     } else {rej(showError('At least one follow-up is required'))}
   })
-    timeline(goal).then((goal) => {return goal})
+    goal = await timeline
+    return goal
  }
 
 async function getProgress(goal) {
@@ -201,11 +203,10 @@ async function getProgress(goal) {
       goal.progress = progress ;
       res(goal)
     } else {rej(showError('At least one box must be checked'))}
-    p(goal).then((r) => {
-      goal.progress = r;
-      return goal
     })
-})
+    goal = await p
+    return goal
+  
 }
 
 document.getElementById('submitCurrentGoal').addEventListener("click", async (event) => {
