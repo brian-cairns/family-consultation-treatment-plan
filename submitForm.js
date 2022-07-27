@@ -154,12 +154,12 @@ async function getCurrentGoal () {
  async function getObjectives(goal) {
     console.log('getting objectives', goal)
     let current = new Promise(goal, (res, rej) => {
+    console.log('creating objective array')
     let objectives = []
     for (let i = 1; i < 4; i++) {
       console.log(i, objectives, goal)
       if (document.getElementById(`goal${i}`) == '') {
           i = 4;
-          return objectives
         } else {objectives.push(document.getElementById(`goal${i}`).value)}
     }
     if (objectives != []) {
