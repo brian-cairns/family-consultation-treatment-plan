@@ -224,13 +224,13 @@ async function getFamilyResponse() {
 
 document.getElementById('submit').addEventListener("click", async (event) => {
     familyTreatmentPlan = document.getElementById('agreeFamilyTreatmentPlan').checked ? "agree" : "disagree"
-    let copyOfPlan = await copyOfPlan()
+    let copy = await copyOfPlan()
     familyResponse = await getFamilyResponse()
     newForm.staffMemberName = document.getElementById('staffName').value;
     newForm.CEO = document.getElementById('CEOName').value
     newForm.familyTreatmentPlan = familyTreatmentPlan;
     newForm.autismSupportTreatmentPlan = autismSupportTreatmentPlan;
-    newForm.copyOfPlan = copyOfPlan;
+    newForm.copyOfPlan = copy
     newForm.familyResponse = familyResponse;
     newForm.date = document.getElementById('date').value
     submitForm(newForm, formName)
