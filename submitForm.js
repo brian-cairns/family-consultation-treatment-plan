@@ -196,6 +196,7 @@ async function getProgress(goal) {
       return goal
     })
 })
+}
 
 document.getElementById('submitCurrentGoal').addEventListener("click", async (event) => {
     getCurrentGoal()
