@@ -157,23 +157,23 @@ async function getCurrentGoal () {
   let currentGoal = getCurrentGoal()
   console.log(currentGoal);
   newForm.goals.push(currentGoal)
-  showError('Goal successfully submitted')
+  showInternalError('Goal successfully submitted')
   submitted++   
 })
     
 
 document.getElementById('createNewGoal').addEventListener("click", async (event) => {
     if (submitted <= additional) {
-        showError('You need to save a goal before proceeding to the next')
+        showInternalError('You need to save a goal before proceeding to the next')
         returns
     }
     additional++
-    showError("Successfully Added")
+    showInternalError("Successfully Added")
     clearGoals()
     return
 })
 
-function showError(e) {
+function showInternalError(e) {
     document.getElementById('submitError').style.display = 'block'
     return document.getElementById('submitError') = e
 }
@@ -229,7 +229,7 @@ document.getElementById('submit').addEventListener("click", async (event) => {
     newForm.staffMemberName = document.getElementById('staffName').value;
     newForm.CEO = document.getElementById('CEOName').value
     newForm.familyTreatmentPlan = familyTreatmentPlan;
-    newForm.autismSupportTreatmentPlan = autismSupportTreatmentPlan;
+  //  newForm.autismSupportTreatmentPlan = autismSupportTreatmentPlan;
     newForm.copyOfPlan = copy
     newForm.familyResponse = familyResponse;
     newForm.date = document.getElementById('date').value
