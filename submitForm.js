@@ -128,7 +128,9 @@ familyGoals.addEventListener('change', (e) => {
     }
 }
 
-getCurrentGoal = new Promise ((res, rej)  => {
+async function getCurrentGoal () {
+
+  let currentGoal = new Promise ((res, rej)  => {
     let goal = new Goal
     goal.goalName = document.getElementById('goalName').value
     goal.strengths = document.querySelector('input#strengths').value;
@@ -143,7 +145,8 @@ getCurrentGoal = new Promise ((res, rej)  => {
       })
       .catch((err) => showError(err))
   })
-      
+  currentGoal.then(() => {return goal})
+}
 
 
  async function getObjectives(goal) {
