@@ -194,6 +194,7 @@ function clearGoals() {
     document.getElementById('notes').value = ''
 }
 
+/*
 async function copyOfPlan() {
   let response = new Promise((res, rej) => {
     let checkbox = ''
@@ -221,18 +222,23 @@ async function getFamilyResponse() {
   })
   return response
 }
+ 
+ */
+
+let printFrom = document.getElementById('printToPDF')
+printForm.style.display = 'none'
 
 document.getElementById('submit').addEventListener("click", async (event) => {
-    familyTreatmentPlan = document.getElementById('agreeFamilyTreatmentPlan').checked ? "agree" : "disagree"
-    let copy = await copyOfPlan()
-    familyResponse = await getFamilyResponse()
-    newForm.staffMemberName = document.getElementById('staffName').value;
-    newForm.CEO = document.getElementById('CEOName').value
-    newForm.familyTreatmentPlan = familyTreatmentPlan;
+    //familyTreatmentPlan = document.getElementById('agreeFamilyTreatmentPlan').checked ? "agree" : "disagree"
+    //let copy = await copyOfPlan()
+    //familyResponse = await getFamilyResponse()
+    //newForm.staffMemberName = document.getElementById('staffName').value;
+    //newForm.CEO = document.getElementById('CEOName').value
+    //newForm.familyTreatmentPlan = familyTreatmentPlan;
   //  newForm.autismSupportTreatmentPlan = autismSupportTreatmentPlan;
-    newForm.copyOfPlan = copy
-    newForm.familyResponse = familyResponse;
-    newForm.date = document.getElementById('date').value
+  //  newForm.copyOfPlan = copy
+  //  newForm.familyResponse = familyResponse;
+  //  newForm.date = document.getElementById('date').value
     submitForm(newForm, formName)
 })
 
@@ -250,20 +256,28 @@ async function submitForm(data, form) {
     },
     body: JSON.stringify(document)
   })
-    .then((response) => {
-      if (response.status == 200) {
-      showSuccess()
-      } else {
-        showError(response.body)
-      }
-    })
+    .then(response => response.json())
+    .then(data => respond(data)) 
     .catch((err) => showError(err))
 }
 
-
-function showSuccess() {
-    document.getElementById('returnMessage').innerHTML = 'Form has been successfully submitted'
+function respond(data) {
+  let id = data.key
+  if (id) {
+    showSuccess(id) 
+  } else {
+    showError(data.error)
+  }
 }
+
+function showSuccess(id) {
+  document.getElementById('returnMessage').innerHTML = 'Form has been successfully submitted'
+  printForm.style.display = 'inline';
+  printForm.addEventListener('click', (e) => {
+  location.href = `https://phoenix-freedom-foundation-backend.webflow.io/completed-forms/family-consultation-treatment-plan?id=${id}`
+  })
+}
+
 
 function showError(err) {
     console.error
