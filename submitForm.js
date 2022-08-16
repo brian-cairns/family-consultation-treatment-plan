@@ -225,7 +225,7 @@ async function getFamilyResponse() {
  
  */
 
-let printFrom = document.getElementById('printToPDF')
+let printForm = document.getElementById('printToPDF')
 printForm.style.display = 'none'
 
 document.getElementById('submit').addEventListener("click", async (event) => {
