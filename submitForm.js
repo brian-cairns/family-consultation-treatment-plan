@@ -165,7 +165,7 @@ async function getCurrentGoal () {
 document.getElementById('createNewGoal').addEventListener("click", async (event) => {
     if (submitted <= additional) {
         showInternalError('You need to save a goal before proceeding to the next')
-        returns
+        return
     }
     additional++
     showInternalError("Successfully Added")
@@ -207,6 +207,7 @@ async function copyOfPlan() {
   })
   return response
 }
+ */
 
 async function getFamilyResponse() {
   let response = new Promise((res, rej) => {
@@ -222,8 +223,7 @@ async function getFamilyResponse() {
   })
   return response
 }
- 
- */
+
 
 let printForm = document.getElementById('printToPDF')
 printForm.style.display = 'none'
@@ -231,13 +231,13 @@ printForm.style.display = 'none'
 document.getElementById('submit').addEventListener("click", async (event) => {
     //familyTreatmentPlan = document.getElementById('agreeFamilyTreatmentPlan').checked ? "agree" : "disagree"
     //let copy = await copyOfPlan()
-    //familyResponse = await getFamilyResponse()
+    familyResponse = await getFamilyResponse()
     //newForm.staffMemberName = document.getElementById('staffName').value;
     //newForm.CEO = document.getElementById('CEOName').value
     //newForm.familyTreatmentPlan = familyTreatmentPlan;
   //  newForm.autismSupportTreatmentPlan = autismSupportTreatmentPlan;
   //  newForm.copyOfPlan = copy
-  //  newForm.familyResponse = familyResponse;
+      newForm.familyResponse = familyResponse;
   //  newForm.date = document.getElementById('date').value
     submitForm(newForm, formName)
 })
