@@ -93,13 +93,13 @@ threeMonthReview.addEventListener('change', (e) => {
 
 let annual = document.querySelector('input#annual')
 annual.addEventListener('change', (e) => {
-    newForm.treatmentPlanDuration = e.target.value;
+    newForm.treatmentPlanDurationAnnual = e.target.value;
     console.log(newForm.treatmentPlanDuration)
     })
 
 let threeMonth = document.querySelector('input#threeMonth')
 threeMonth.addEventListener('change', (e) => {
-    newForm.treatmentPlanDuration = e.target.value;
+    newForm.treatmentPlanDurationThreeMos = e.target.value;
     console.log(newForm.treatmentPlanDuration)
 })
     
@@ -109,7 +109,7 @@ background.addEventListener('change', (e) => {
     console.log(newForm.background)
     })
 
-let familyGoals = document.querySelector('input#familyGoals')
+let familyGoals = document.getElementById('familyGoals')
 familyGoals.addEventListener('change', (e) => {
     newForm.familyGoals = e.target.value;
     console.log(newForm.familyGoals)
