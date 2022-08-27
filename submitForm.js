@@ -201,7 +201,7 @@ function clearGoals() {
     document.getElementById('ongoing').checked = false;
     document.getElementById('discontinued').checked = false;
     document.getElementById('notes').value = ''
-    document.getElembetById('familyGoals').value = ''
+    document.getElementById('familyGoals').value = ''
 }
 
 /*
