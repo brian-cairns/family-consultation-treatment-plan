@@ -128,12 +128,21 @@ familyGoals.addEventListener('change', (e) => {
     }
 }
 
+class FamilyGoal extends Goal {
+	constructor (goalName, strengths, needs, objectives, interventions, responsiblePersonTimeline, progress, notes, familyGoal) {
+	super(goalName, strengths, needs, objectives, interventions, responsiblePersonTimeline, progress, notes)
+	this.familyGoal = familyGoal
+	}
+}
+		
+
 async function getCurrentGoal () {
   console.log('current goals being captured')
-   let goal = new Goal
+   let goal = new FamilyGoal
    goal.objectives = []
    goal.responsiblePersonTimeline = []
     console.log(goal)
+    goal.familyGoal = document.getElementById('familyGoals')
     goal.goalName = document.getElementById('goalName').value
     goal.strengths = document.querySelector('input#strengths').value;
     goal.needs = document.querySelector('input#needs').value;
@@ -192,6 +201,7 @@ function clearGoals() {
     document.getElementById('ongoing').checked = false;
     document.getElementById('discontinued').checked = false;
     document.getElementById('notes').value = ''
+    document.getElembetById('familyGoals').value = ''
 }
 
 /*
