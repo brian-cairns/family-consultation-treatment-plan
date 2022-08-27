@@ -163,7 +163,7 @@ async function getCurrentGoal () {
 
  document.getElementById('submitCurrentGoal').addEventListener("click", async (event) => {
   console.log('getting current goal')  
-  let currentGoal = getCurrentGoal()
+  let currentGoal = await getCurrentGoal()
   console.log(currentGoal);
   newForm.goals.push(currentGoal)
   showInternalError('Goal successfully submitted')
