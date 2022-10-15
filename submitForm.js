@@ -94,7 +94,7 @@ sixMonthReview.addEventListener('change', (e) => {
 
 let annual = document.querySelector('input#annual')
 annual.addEventListener('change', (e) => {
-    newForm.treatmentPlanDuration = e.target.value;
+    newForm.treatmentPlanDurationAnnual = e.target.value;
     console.log(newForm.treatmentPlanDuration)
     })
 
@@ -269,10 +269,37 @@ async function submitForm(data, form) {
 function respond(data) {
   let id = data.key
   if (id) {
-    showSuccess(id) 
+    showSuccess(id)
+    sendNotification(id, newForm.clientName,'family', 'not urgent');
+    sendNotification(id, newForm.staffName, 'family', 'not urgent');
+    sendNotification(id, 'admin', 'family', 'not urgent')	
   } else {
     showError(data.error)
   }
+	
+async function sendNotification(id, recipient, type, priority) {
+  let message = `You have a new <br/><a href=phoenix-freedom-foundation-backend.webflow.io/completed-forms/iiss-session-note?id=${id}>Family Treatment Plan</a>`
+  console.log(message)
+  const url = 'https://pffm.azurewebsites.net/notices'
+  let notification = {
+    'name': recipient,
+    'notice': message,
+    'type': type,
+    'priority': priority
+  }
+  const header = {
+      'Content-Type': 'application/json',
+      "Access-Control-Allow-Origin" : "*"
+  }
+  
+  fetch(url, {
+    method: "POST",
+    headers: header,
+    body: JSON.stringify(notification)
+  })
+    .then(() => console.log('notice sent'))
+    .catch(console.error)
+}
 }
 
 function showSuccess(id) {
