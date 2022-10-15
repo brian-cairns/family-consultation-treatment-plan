@@ -1,12 +1,14 @@
-let submit = document.getElementById('submit')
+let submit = document.getElementById('submitToFile')
 console.log(submit)
 const formName = 'familyTreatmentPlan'
 console.log('form: ' + formName)
 let newForm = {}
-let submitted = 0
-let additional = 0
 newForm.goals = [];
 
+for (let i = 1; i < 3; i++) {
+  document.getElementById(`addGoal${i}`).style.display = 'none'
+  document.getElementById(`goalBlock${i + 1}`).style.display = 'none' 
+}
 
 let clientName = document.querySelector('input#clientName')
 clientName.addEventListener('change', (e) => {
@@ -14,8 +16,7 @@ clientName.addEventListener('change', (e) => {
 	newForm.clientName = e.target.value;
   console.log(newForm.clientName);
   document.getElementById('showClientName').innerHTML = newForm.clientName;
-  //document.getElementById('showClientName1').innerHTML = newForm.clientName;
-  })
+})
   
 let address = document.querySelector('input#address')
 address.addEventListener('change', (e) => {
@@ -75,8 +76,8 @@ let dob = document.querySelector('input#dob')
 dob.addEventListener('change', (e) => {
 	newForm.dob = e.target.value;
   console.log(newForm.dob);
-  document.getElementById('showClientDOB').innerHTML = newForm.dob;
-  //document.getElementById('showClientDOB1').innerHTML = newForm.dob;
+  document.getElementById('clientDobFlag').innerHTML = newForm.dob;
+  
 })
 
 let familyTrainerName = document.querySelector('input#familyTrainerName')
@@ -85,9 +86,9 @@ familyTrainerName.addEventListener('change', (e) => {
   console.log(newForm.familyTrainerName);
 })
 
-let threeMonthReview = document.querySelector('input#threeMonthReview')
-threeMonthReview.addEventListener('change', (e) => {
-	newForm.threeMonthReview = e.target.value;
+let sixMonthReview = document.querySelector('input#sixMonthReview')
+sixMonthReview.addEventListener('change', (e) => {
+	newForm.sixMonthReview = e.target.value;
   console.log(newForm.threeMonthReview);
 })
 
@@ -97,148 +98,152 @@ annual.addEventListener('change', (e) => {
     console.log(newForm.treatmentPlanDuration)
     })
 
-let threeMonth = document.querySelector('input#threeMonth')
-threeMonth.addEventListener('change', (e) => {
+let sixMonth = document.querySelector('input#sixMonth')
+sixMonth.addEventListener('change', (e) => {
     newForm.treatmentPlanDuration = e.target.value;
     console.log(newForm.treatmentPlanDuration)
 })
     
-let background = document.getElementById('background')
+let background = document.getElementById('backgroundClient')
 background.addEventListener('change', (e) => {
     newForm.background = e.target.value;
     console.log(newForm.background)
     })
 
-let familyGoals = document.querySelector('input#familyGoals')
-familyGoals.addEventListener('change', (e) => {
-    newForm.familyGoals = e.target.value;
-    console.log(newForm.familyGoals)
-})
-
-    class Goal {
-    constructor(goalName, strengths, needs, objectives, interventions, responsiblePersonTimeline, progress, notes) {
-        this.goalName = goalName;
-        this.strengths = strengths;
-        this.needs = needs;
-        this.objectives = objectives;
-        this.interventions = interventions;
-        this.responsiblePersonTimeline = responsiblePersonTimeline;
-        this.progress = progress
-        this.notes = notes
+class Goal {
+    constructor(goalName, objectives, intervention, strategies, responsible, progress, completed) {
+      this.goalName = goalName;
+      this.objectives = objectives;
+      this.intervention = intervention;
+      this.responsible = responsible;
+      this.strategies = strategies;
+      this.progress = progress;
+      this.completed = completed
     }
 }
 
-async function getCurrentGoal () {
-  console.log('current goals being captured')
-   let goal = new Goal
-   goal.objectives = []
-   goal.responsiblePersonTimeline = []
-    console.log(goal)
-    goal.goalName = document.getElementById('goalName').value
-    goal.strengths = document.querySelector('input#strengths').value;
-    goal.needs = document.querySelector('input#needs').value;
-    goal.interventions = document.getElementById('interventions').value;
-    goal.notes = document.getElementById('notes').value;
-    goal.objectives[0] = document.getElementById('goal1').value;
-    goal.objectives[1] = document.getElementById('goal2').value;
-    goal.objectives[2] = document.getElementById('goal3').value;
-    goal.responsiblePersonTimeline[0] = document.getElementById('responsiblePersonTimeline1').value
-    goal.responsiblePersonTimeline[1] = document.getElementById('responsiblePersonTimeline2').value
-    goal.responsiblePersonTimeline[2] = document.getElementById('responsiblePersonTimeline3').value
-    if(document.getElementById('responsiblePersonTimeline1').checked) {goal.progress = 'achieved'}
-    if(document.getElementById('responsiblePersonTimeline3').checked) {goal.progress = 'on-going'}
-    if(document.getElementById('responsiblePersonTimeline2').checked) {goal.progress = 'discontinued'}
-    return goal
+let completionCriteria = []
+let goalButtons = []
+
+for (let i = 0; i < 8; i++) {
+  completionCriteria[i] = document.querySelector(`input#criteriaEntry${i + 1}`)
+  completionCriteria[i].value = ' '
+  completionCriteria[i].addEventListener('change', (e) => {
+    document.getElementById(`criteria${i+1}`).innerText = e.target.value
+  })
+}
+
+for (let i = 1; i < 4; i++) {
+  goalButtons[i] = document.getElementById(`saveGoal${i}`)
+  goalButtons[i].addEventListener('click', () => {
+    let goal = new Goal()
+    goal.goalName = document.getElementById(`familyGoal${i}`)
+    goal.intervention = document.getElementById(`interventions${i}`)
+    goal.strategies = document.getElementById(`strategies${i}`)
+    goal.responsible = document.getElementById(`responsible${i}`)
+    goal.progress = getProgress(i)
+    goal.objective = getObjectives((i-1)*3)
+    goal.completed = getCompleted((i-1)*3)
+    newForm.goals.push(goal)
+    if (i < 3) { document.getElementById(`addGoal${i}`).style.display ='block' }
+  })
+}
+
+
+function getCompleted(j) {
+  let completed = []
+  for (let i=j; i < j + 3; i++) {
+  	let c = document.getElementById(`goalCriteria${i+1}`)
+    console.log(i, c.checked)
+    if (c.checked) {completed.push(`criteria${i+1}`)}
   }
+  return completed
+}
 
+function getObjectives(j) {
+  let objectives = []
+  for (let i = j; i < j + 3; i++) {
+    objectives.push(completionCriteria[i])
+  }
+  return objectives
+}
 
- document.getElementById('submitCurrentGoal').addEventListener("click", async (event) => {
-  console.log('getting current goal')  
-  let currentGoal = getCurrentGoal()
-  console.log(currentGoal);
-  newForm.goals.push(currentGoal)
-  showInternalError('Goal successfully submitted')
-  submitted++   
+function getProgress(i) {
+  let achieved = document.getElementById(`achieved${i}`).checked
+  let discontinued = document.getElementById(`discontinued${i}`).checked
+  let ongoing = document.getElementById(`ongoing${i}`).checked
+  let completionCheck = true
+  let progress = 'none'
+    if (achieved) {
+      progress = 'achieved'
+    } else {
+      if (discontinued) {
+        progress = 'discontinued'
+      } else {progress = 'ongoing' }
+  }
+  console.log('progress ==>', progress)
+  return progress
+}
+
+let addGoal1 = document.getElementById('addGoal1')
+addGoal1.addEventListener('click', () => {
+  document.getElementById('goalBlock2').style.display = 'block'
 })
-    
 
-document.getElementById('createNewGoal').addEventListener("click", async (event) => {
-    if (submitted <= additional) {
-        showInternalError('You need to save a goal before proceeding to the next')
-        returns
-    }
-    additional++
-    showInternalError("Successfully Added")
-    clearGoals()
-    return
+let addGoal2 = document.getElementById('addGoal2')
+addGoal1.addEventListener('click', () => {
+  document.getElementById('goalBlock3').style.display = 'block'
 })
 
-function showInternalError(e) {
-    document.getElementById('submitError2').style.display = 'block'
-    return document.getElementById('submitError2').innerHTML = e
-}
+let summary = document.getElementById('summary')
+summary.addEventListener('change', (e) => {
+  newForm.summary = e.target.value
+})
 
-function clearGoals() {
-    console.log('clearining goals')
-    document.getElementById('goalName').value = '';
-    document.getElementById('strengths').value = '';
-    document.getElementById('needs').value = '';
-    for (let i = 1; i < 4; i++) {
-        document.getElementById(`goal${i}`).value = ''
-        document.getElementById(`responsiblePersonTimeline${i}`).value = ''
-    }
-    document.getElementById('interventions').value = ''
-    document.getElementById('achieved').checked = false;
-    document.getElementById('ongoing').checked = false;
-    document.getElementById('discontinued').checked = false;
-    document.getElementById('notes').value = ''
-}
+let familyTreatmentPlanYes = document.getElementById('agreeFamilyTreatmentPlan')
+let familyTreatmentPlanNo = document.getElementById('disagreeFamilyTreatmentPlan') 
+let IISSYes = document.getElementById('agreeFamilyTreatmentPlan-2')
+let IISSNo = document.getElementById('disagreeFamilyTreatmentPlan-2')
+let copyAccept = document.getElementById('acceptReceiveCopy')
+let hardCopyAccept = document.getElementById('hardCopyReceiveCopy')
+let eCopyAccept = document.getElementById('electronicReceiveCopy')
+let copyReject = document.getElementById('disagreeReceiveCopy')
 
-/*
-async function copyOfPlan() {
-  let response = new Promise((res, rej) => {
-    let checkbox = ''
-    if (document.getElementById('acceptReceiveCopy').checked) { checkbox = 'accept' }
-    if (document.getElementById('hardCopyReceiveCopy').checked) { checkbox = 'hard copy' }
-    if (document.getElementById('electronicReceiveCopy').checked) { checkbox = 'electronic' }
-    if (document.getElementById('electronicReceiveCopy').checked) { checkbox = 'disagree' }
-    checkbox != '' ? res(checkbox): rej(showError('receipt of plan mus be checked'))
-  
-  })
-  return response
-}
+familyTreatmentPlanYes.addEventListener('change', () => {
+ familyTreatmentPlanYes.checked ? newForm.familyTreatmentPlan = 'agree' : newForm.familyTreatmentPlan = 'disagree'
+})
 
-async function getFamilyResponse() {
-  let response = new Promise((res, rej) => {
-    let familyResponse = {}
-    familyResponse.progress = document.getElementById('responseProgress').value;
-    familyResponse.teachingPlan = document.getElementById('teachingPlan').value;
-    familyResponse.timeline = document.getElementById('timeline').value;
-    if (document.getElementById('achievedFamily').checked) { familyResponse.review = 'achieved' }
-    if (document.getElementById('discontinuedFamily')) { familyResponse.review = 'discontinued' }
-    else { familyResponse.review = 'ongoing' }
-    familyResponse.notes = document.getElementById('notesFamily').value
-    familyResponse != {} ? res(familyResponse): rej(showError('Family acknowledgement required'))
-  })
-  return response
-}
- 
- */
+familyTreatmentPlanNo.addEventListener('change', () => {
+  familyTreatmentPlanNo.checked ? newForm.familyTreatmentPlan = 'disagree' : newForm.familyTreatmentPlan = 'agree'
+})
 
-let printFrom = document.getElementById('printToPDF')
+IISSYes.addEventListener('change', () => {
+  IISSYes.checked ? newForm.IISS = 'agree' : newForm.IISS = 'disagree'
+})
+
+IISSNo.addEventListener('change', () => {
+  IISSNo.checked ? newForm.IISS = 'disagree' : newForm.IISS = 'agree'
+})
+
+copyAccept.addEventListener('change', () => {
+  copyAccept.checked ? newForm.treatmentCopy = 'accepted' : newForm.treatmentCopy = 'null'
+})
+
+hardCopyAccept.addEventListener('change', () => {
+  hardCopyAccept.checked ? newForm.treatmentCopy = 'hard copy accepted' : newForm.treatmentCopy = 'null'
+})
+
+eCopyAccept.addEventListener('change', () => {
+  eCopyAccept.checked ? newForm.treatmentCopy = 'electronic accepted' : newForm.treatmentCopy = 'null'
+})
+
+copyReject.addEventListener('change', () => {
+  copyReject.checked ? newForm.treatmentCopy = 'rejected' : newForm.treatmentCopy = 'null'
+})
+
+let printForm = document.getElementById('printToPDF')
 printForm.style.display = 'none'
-
-document.getElementById('submit').addEventListener("click", async (event) => {
-    //familyTreatmentPlan = document.getElementById('agreeFamilyTreatmentPlan').checked ? "agree" : "disagree"
-    //let copy = await copyOfPlan()
-    //familyResponse = await getFamilyResponse()
-    //newForm.staffMemberName = document.getElementById('staffName').value;
-    //newForm.CEO = document.getElementById('CEOName').value
-    //newForm.familyTreatmentPlan = familyTreatmentPlan;
-  //  newForm.autismSupportTreatmentPlan = autismSupportTreatmentPlan;
-  //  newForm.copyOfPlan = copy
-  //  newForm.familyResponse = familyResponse;
-  //  newForm.date = document.getElementById('date').value
+submit.addEventListener("click", () => {
     submitForm(newForm, formName)
 })
 
@@ -277,7 +282,6 @@ function showSuccess(id) {
   location.href = `https://phoenix-freedom-foundation-backend.webflow.io/completed-forms/family-consultation-treatment-plan?id=${id}`
   })
 }
-
 
 function showError(err) {
     console.error
